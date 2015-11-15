@@ -1,0 +1,45 @@
+Szolgáltatók elektronikus aláírásai
+===================================
+
+Viczián István
+2015.
+
+.Szolgáltatók és elektronikus aláírásuk
+[options="header",cols="2,1,2,2"]
+|====
+|Tulajdonos CN|Formátum|PDF létrehozója|Kiállító O/CN
+|DIGI KFT.|PDF|iTextSharp 5.0.2|Microsec Ltd. - Advanced Class 3 e-Szigno CA 2009 footnote:[Gyökértanúsítvány: Microsec e-Szigno Root CA 2009]
+||||NetLock Kft. - NetLock Minősített Időbélyeg Szolgáltató
+|Díjbeszedő Holding Zrt.|es3||Microsec Ltd. - Advanced Class 3 e-Szigno CA 2009
+||||Microsec Ltd. - Qualified e-Szigno TSA 2013 02
+|Díjnet Zrt. footnote:[Főtáv számlák]|PDF|Apache FOP Version 2.0; modified using iText 5.0.2 (c) 1T3XT BVBA|Microsec Ltd. - Advanced Class 3 e-Szigno CA 2009
+||||Microsec Ltd. - Qualified e-Szigno TSA 2015 03
+|ELMŰ Nyrt. Számlázás|PDF|PDFlib + PDI 7.0.0 (Win 32); modified using iText 5.0.2 (c) 1T3XT BVBA|Microsec Ltd. - Advanced Class 3 e-Szigno CA 2009
+||||Microsec Ltd. - Qualified e-Szigno TSA 2015 03
+|Fővárosi Gázművek Zrt.|PDF|PDFlib + PDI 7.0.0 (Win 32); modified using iText 5.0.2 (c) 1T3XT BVBA|Microsec Ltd. - Advanced Class 3 e-Szigno CA 2009
+||||Microsec Ltd. - Qualified e-Szigno TSA 2015 02
+|Magyar Telekom Nyrt.|PDF|n/a footnote:[A digitális aláírás a NetLock Kft. PDF Signo termékével készült.]|NetLock Kft. - NetLock Expressz Eat. (Class C Legal) Tanúsítványkiadó footnote:[Gyökértanúsítvány: NetLock Arany (Class C Legal) Tanúsítványkiadó]
+||||Magyar Telekom	- TSA1 2014 footnote:[Gyökértanúsítvány: Magyar Telekom RootCA 2011]
+|TIGÁZ Zrt.|PDF|PDFlib + PDI 7.0.0 (Win 32) footnote:[A digitális aláírás a NetLock Kft. PDF Signo termékével készült.]|NetLock Kft. - NetLock Üzleti Eat. (Class B Legal) Tanúsítványkiadó footnote:[Gyökértanúsítvány: NetLock Arany (Class Gold) Főtanúsítvány]
+||||NetLock Kft. - NetLock Minősített Időbélyeg Szolgáltató
+|UPC Magyarország Kft.|es3||Microsec Ltd. -	Advanced Class 3 e-Szigno CA 2009
+||||Microsec Ltd. -	Qualified e-Szigno TSA 2013 02
+|====
+
+További megállapítások:
+
+- Az es3 file e-Szigno Signed Document, mely Microsec e-Szignóval ellenőrizhető.
+- Advanced Class 3 e-Szigno CA 2009: Nem minősített tanúsítvány, 3. hitelesítési
+  osztály, regisztrációkor a személyes megjelenés kötelező. A tanúsítvány alanya
+  nem természetes személy.
+- NetLock Üzleti Eat. (Class B Legal) Tanúsítványkiadó: Szigorú ellenőrzési lépések
+  alapján hitelesített tanúsítványok kiadója. Használata elektronikus levelezéshez,
+  közepes kockázatú tranzakciókhoz, on-line szolgáltatások igénybevételéhez ajánlott.
+  Csak aláírási célú tanúsítványokat bocsát ki. Megfelel az előírt SHA-256 követelményeknek.
+- NetLock Expressz Eat. (Class C Legal) Tanúsítványkiadó: Korlátozott, részben emberi
+  beavatkozással történt ellenőrzési lépéseken keresztül hitelesített tanúsítványokat ad ki.
+  Használata elektronikus levelezéshez, kisebb kockázatú tranzakciókhoz, on-line
+  szolgáltatások igénybevételéhez, szoftver forrásának ellenőrzéséhez ajánlott.
+  Csak aláírási célú tanúsítványokat bocsát ki. Megfelel az előírt SHA-256 követelményeknek.
+- A NetLock időbélyeg szolgáltató terheléselosztottan működik, node-tól függ,
+  hogy G3 vagy G10 kerül kiosztásra.
