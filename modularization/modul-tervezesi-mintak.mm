@@ -175,7 +175,7 @@
 <node CREATED="1412431163723" ID="ID_1056977489" MODIFIED="1412431176451" TEXT="Ellenp&#xe9;lda: &#xfa;j mez&#x151; felv&#xe9;tele az adatb&#xe1;zisba, mely megjelenik a fel&#xfc;leten"/>
 </node>
 </node>
-<node CREATED="1412428070513" ID="ID_1000711333" MODIFIED="1412431398345" TEXT="Kont&#xe9;nerf&#xfc;ggetlens&#xe9;g (Container indipendence)">
+<node CREATED="1412428070513" ID="ID_1000711333" MODIFIED="1460040514890" TEXT="Kont&#xe9;nerf&#xfc;ggetlens&#xe9;g (Container independence)">
 <richcontent TYPE="NOTE"><html>
   <head>
     
@@ -257,8 +257,7 @@
       Legyen egy neh&#233;zs&#250;ly&#250; (heavyweight) durva szemcs&#233;zetts&#233;g&#369; (coarse grained) bel&#233;p&#233;si pont, mely elfedi az alatta l&#233;v&#337; t&#246;bb pehelys&#250;ly&#250; (lightweight) finom szemcs&#233;zetts&#233;g&#369; (fine grained) modul bonyolults&#225;g&#225;t, konfigur&#225;l&#225;s&#225;t.
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <node CREATED="1412431875971" ID="ID_375127426" MODIFIED="1412431882458" TEXT="Modul k&#xf6;nnyebb meg&#xe9;rt&#xe9;se &#xe9;s haszn&#xe1;lata"/>
 <node CREATED="1412432000852" ID="ID_462163605" MODIFIED="1412432022691" TEXT="Tipikusan pl. a UI &#xe9;s az &#xfc;zleti logika k&#xf6;z&#xe9;"/>
 <node CREATED="1412432038412" ID="ID_1944432795" MODIFIED="1412432048553" TEXT="Saj&#xe1;t &#xfc;zleti logik&#xe1;t is tartalmazhat"/>
