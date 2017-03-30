@@ -1,0 +1,201 @@
+:source-highlighter: coderay
+:imagesdir: ./images
+
+Java naplózás megvalósítása Apache Log4J 1.2-vel
+------------------------------------------------
+Viczián István
+2003. május 31., frissítve 2017. március 29.
+
+E cikk olyan Java programozóknak nyújt segítséget, kik tisztában vannak
+a Java nyelv alapjaival, és egy megbízható, elterjedt, jól dokumentált
+és támogatott naplózó rendszerre van szükségük.
+
+A naplózásra szinte minden szoftver fejlesztésekor szükség van, a
+legkisebbtől kezdve a komplex, nagyvállalati környezetben használatos,
+elosztott alkalmazásokig. Nem csupán hibakeresési lehetőség, hanem
+használható monitorozásra, audit naplózásra, különböző felhasználói tesztek
+sikerességének ellenőrzésére. A naplózás és debug nem keverendő össze,
+inkább kiegészítik egymást. Van olyan eset, mikor a debuggerek nem
+alkalmazhatók, vagy használatuk körülményes lenne, ilyenkor jól jön a
+naplózás. A naplózás jóval több, mint `System.out.println` utasítások,
+elvárásunk lehet, hogy az eseményekhez pontos dátum kapcsolódjon, a
+különböző szoftverkomponensek üzenetei megkülönböztethetőek legyenek
+egymástól, szűkíteni vagy bővíteni lehessen a naplózást különböző
+szintek bevezetésével, a formátum és cél tetszőlegesen konfigurálható
+legyen (pl. fájl, adatbázis, más hálózati erőforrás).
+
+A Log4J egy minden igényt kielégítő naplózó rendszer, mely a felsorolt
+kívánalmaknak maximálisan megfelel, és egyéb hasznos tulajdonságai is
+vannak. Bevezeti a loggerek fa hierarchiáját (hasonlóan a csomagokhoz),
+így naplózáskor kiválaszthatunk bármilyen részfát, és külön
+konfigurálhatjuk ezek tulajdonságait. A beállításokat a szülő loggerre
+kell megadni, és ezt minden gyermeke örökli.
+
+A Log4J a többi Apache projecthez hasonlóan nyílt forráskódú, és az
+Apache License, Version 2.0 hatálya alá tartozik.
+
+A Log4J fejlesztésekor külön figyeltek arra, hogy a naplózás
+kikapcsolásakor ne kelljen a forráskódot megváltoztatni, és mégse legyen
+tapasztalható észrevehető sebességkülönbség egy log nélküli kódhoz
+képest. Mivel a Java nyelv alapvetően nem rendelkezik előfordítóval (,
+persze léteznek alternatív megoldások), a log üzeneteknek mindenképp
+szerepelniük kell a forráskódban, elrontva kicsit annak olvashatóságát.
+Ezt sajnos számításba kell vennünk, és ésszerűen megszabni a log
+üzenetek és a tényleges kód mennyiségének az arányát.
+
+A Log4J egy külön állományban konfigurálható, nincs szükség a forrás
+módosítására.
+
+A Log4J fő fejlesztője Ceki Gülcü, és a honlapon rövid dokumentációt,
+cikkeket, prezentációkat, API dokumentációt is találhatunk, illetve a
+különböző verziók binárisát illetve forrását. Sajnos a teljes
+dokumentáció csak kereskedelmi forgalomban kapható nyomtatott könyv. 
+
+A
+cikk írásakor az aktuális verzió az 1.2.17, de nem szándékom olyan
+mélyen belemenni, hogy bármilyen verzió specifikus információval
+szolgáljak. Azonban azóta megjelent a Log4J 2 széria is, 
+azonban az nem teljesen visszafele kompatibilis.
+
+A Log4J három fő komponensei a loggerek, appenderek és a layoutok. A
+loggerek használandóak a forrásban és fa hierarchiát építenek fel. Az
+appenderek biztosítják a logok perzisztenciáját, tehát írnak fájlba,
+konzolra, socketre. A layoutok felelősek a log formázásáért,
+megjelenéséért.
+
+A loggerek a csomagokhoz
+hasonlóan egyedi névvel rendelkeznek, és kis és nagybetű érzékenyek.
+Minősíteni is hasonlóan kell, tehát a szülő után pontot téve kell írnunk
+a gyermek nevét. Pl. ha a szülő `szulo` nevű, akkor annak egyik közvetlen
+leszármazottja lehet a `szulo.gyermek` nevű.
+
+Az 1.2-es verziótól kezdve Logger osztály használatos a Category osztály
+helyett.
+
+Létezik egy gyökér logger is, mely nem rendelkezik névvel, és mindig
+létezik. Így lekérdezni név alapján nem is lehet, csupán kódból a
+`Logger.getRootLogger` statikus metódussal. Kódból a loggereket lekérdezni
+a `Logger.getLogger` metódussal lehet.
+
+Egy loggerhez szinteket lehet rendelni, név szerint a `DEBUG`, `INFO`, `WARN`,
+`ERROR` és `FATAL`, melyek az `org.apache.log4j.Level` osztályban vannak
+deklarálva. A felsorolás sorrendje mutatja a szintek sorrendjét is. A
+`DEBUG` az összes szintet tartalmazza, míg a `FATAL` nem tartalmaz egy más
+szintet sem. A gyökér loggernek mindig meg kell adni szintet, míg a
+többi logger örökölheti azt a szülőjétől.
+
+Amikor naplózni szeretnénk a programban, a `debug`, `info`, `warn`, `error`,
+`fatal` és `log` metódusok valamelyikét használhatjuk. Egy ilyen kiíró
+metódusnak akkor lesz csak hatása, ha a loggernek megadott szint
+ugyanaz, vagy magában foglalja a hozzá tartozó szintet. Azaz ha `debug`
+metódust használunk, akkor csak akkor jelenik meg, ha a logger szintje
+is `DEBUG`. A `fatal` mindig megjelenik. Egy `warn`-nal hívott kiírás csak
+akkor jelenik meg, ha a logger szintje `WARN`, `ERROR` vagy `FATAL`.
+
+A `Logger.getLogger` metódus adja vissza a kódban a megadott loggert, név
+alapján. Ha a név ugyanaz, akkor a metódus mindig ugyanaz a példányt
+adja vissza.
+
+A legelterjedtebb stratégia a loggerek elnevezésére az osztályhierarchia
+pontos követése, és a logger deklarálása statikus változóként.
+
+[source,java]
+----
+package log4jsample;
+
+import org.apache.log4j.Logger;
+
+public class Test1 {
+    private static final Logger LOGGER = Logger.getLogger(Test1.class.getName());
+
+    public static void main(String[] args) {
+        LOGGER.debug("Hello Log4J!");
+    }
+}
+----
+
+Ebben az esetben a logger neve `log4jsample.Test1` lesz. Fordításhoz nem
+kell mást tennünk, mint a Log4J jar fájlját (jelenleg log4j-1.2.8.jar)
+elhelyezni a classpathban.
+
+Ebben az esetben még nem vagyunk kész az alkalmazásunkkal, hiszen egy
+konfigurációs fájlt is meg kell adni, melyben a szinteket, appendereket
+és layoutokat is konfigurálni kell. Futtatáskor a következő hibaüzenetet
+kapjuk:
+
+----
+log4j:WARN No appenders could be found for logger (log4jsample.Test1).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+----
+
+Appenderek a következő helyekre írhatnak: konzolra, fájlba, GUI
+komponensre, socket szerverre, JMS-t (Java Messaging Service) igénybe
+véve, NT event logba, és UNIX Syslog demonnak, stb. Lehetséges asszinkron
+appender használata is, ahol egy külön szál gyűjti az üzeneteket, és
+puffereli őket. Egy loggerhez több appender is kapcsolható, pl. az
+addAppender metódussal. Alapesetben az összes appendernek elmegy az
+üzenet, mely egy adott loggerhez, illetve annak szüleihez van kapcsolva.
+Ez a működés átdefiniálható.
+
+Az üzenet formáját a layout határozza meg. A layoutot egy minta
+segítségével konfigurálhatjuk, ami egy szöveges sor, vezérlő
+karakterekkel. A pontos leírását a `PatternLayout` osztály API
+dokumentációja tartalmazza. Egy lehetséges beállítás:
+
+----
+%4d{dd MMM yyyy HH:mm:ss,SSS} %-5p - %c: %m\n
+----
+
+Kiírja a dátumot, időt ezredmásodperc pontossággal, az üzenet osztályát
+és kategóriáját, valamint az üzenetet és egy sortörés karaktert:
+
+----
+31 máj. 2003 16:20:13,875 DEBUG - log4jsample.Test1: Hello Log4J!
+----
+
+A konfigurációs fájl lehet XML vagy property (név=érték párok) fájl
+formátumú. A Log4J alapesetben a classpathon keres egy
+`log4j.properties` nevű fájlt, de megadhatjuk neki programozottan is annak
+helyét (`PropertyConfigurator.configure` metódussal).
+
+Legyen a konfigurációs fájl a következő:
+
+----
+# Megjegyzések.
+# A gyökér loggernek beállítja a szintjét FATAL-ra, és megadja neki az A1
+# nevű appendert
+log4j.rootLogger=FATAL, A1
+
+# Az appender konzolra dolgozik.
+log4j.appender.A1=org.apache.log4j.ConsoleAppender
+
+# A appender fájlba ír.
+# log4j.appender.A1=org.apache.log4j.FileAppender
+# log4j.appender.A1.File=test.log
+# log4j.appender.A1.Append=false
+
+# Layout beállítása.
+log4j.appender.A1.layout=org.apache.log4j.PatternLayout
+# Layout minta beállítása.
+log4j.appender.A1.layout.ConversionPattern=%4d{dd MMM yyyy HH:mm:ss,SSS} %-5p - %c: %m\n
+
+# Loggerek
+log4j.logger.log4jsample.Test1=DEBUG
+----
+
+A konfigurációs állományban, ha a `FileAppender`-t alkalmazzuk, az
+eredmény a `test.log` fájlban fog megjelenni.
+
+Az öt naplózó metódusnak mindegyiknek van olyan párja is, mikor egy
+`Throwable` interfészt implementáló osztályt adhatunk meg paraméterként,
+így bármilyen kivétel kiírása is lehetővé válik.
+
+A Log4J portolva lett más nyelvekre és platformokra is, mint C, C++,
+Eiffel, Perl, LotusScript, .NET, PHP, Python, PL/SQL, Qt/C++, Ruby.
+Létezik JDBC appender, mellyel az adatbázisba naplózás oldható meg,
+létezik J2ME verziója, mely mobil környezetben használatos.
+
+A Log4J egyszerűen használható, elterjedt, könnyen konfigurálható
+naplózó keretrendszer, mely a naplózással kapcsolatos minden igényünket
+kielégíti, és kellően jól dokumentált.
