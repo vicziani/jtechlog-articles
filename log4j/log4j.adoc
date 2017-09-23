@@ -69,13 +69,13 @@ Minősíteni is hasonlóan kell, tehát a szülő után pontot téve kell írnun
 a gyermek nevét. Pl. ha a szülő `szulo` nevű, akkor annak egyik közvetlen
 leszármazottja lehet a `szulo.gyermek` nevű.
 
-Az 1.2-es verziótól kezdve Logger osztály használatos a Category osztály
+Az 1.2-es verziótól kezdve `Logger` osztály használatos a `Category` osztály
 helyett.
 
 Létezik egy gyökér logger is, mely nem rendelkezik névvel, és mindig
 létezik. Így lekérdezni név alapján nem is lehet, csupán kódból a
-`Logger.getRootLogger` statikus metódussal. Kódból a loggereket lekérdezni
-a `Logger.getLogger` metódussal lehet.
+`Logger.getRootLogger()` statikus metódussal. Kódból a loggereket lekérdezni
+a `Logger.getLogger()` metódussal lehet.
 
 Egy loggerhez szinteket lehet rendelni, név szerint a `DEBUG`, `INFO`, `WARN`,
 `ERROR` és `FATAL`, melyek az `org.apache.log4j.Level` osztályban vannak
@@ -84,15 +84,15 @@ deklarálva. A felsorolás sorrendje mutatja a szintek sorrendjét is. A
 szintet sem. A gyökér loggernek mindig meg kell adni szintet, míg a
 többi logger örökölheti azt a szülőjétől.
 
-Amikor naplózni szeretnénk a programban, a `debug`, `info`, `warn`, `error`,
-`fatal` és `log` metódusok valamelyikét használhatjuk. Egy ilyen kiíró
+Amikor naplózni szeretnénk a programban, a `debug()`, `info()`, `warn()`, `error()`,
+`fatal()` és `log()` metódusok valamelyikét használhatjuk. Egy ilyen kiíró
 metódusnak akkor lesz csak hatása, ha a loggernek megadott szint
-ugyanaz, vagy magában foglalja a hozzá tartozó szintet. Azaz ha `debug`
+ugyanaz, vagy magában foglalja a hozzá tartozó szintet. Azaz ha `debug()`
 metódust használunk, akkor csak akkor jelenik meg, ha a logger szintje
-is `DEBUG`. A `fatal` mindig megjelenik. Egy `warn`-nal hívott kiírás csak
+is `DEBUG`. A `fatal()` mindig megjelenik. Egy `warn()`-nal hívott kiírás csak
 akkor jelenik meg, ha a logger szintje `WARN`, `ERROR` vagy `FATAL`.
 
-A `Logger.getLogger` metódus adja vissza a kódban a megadott loggert, név
+A `Logger.getLogger()` metódus adja vissza a kódban a megadott loggert, név
 alapján. Ha a név ugyanaz, akkor a metódus mindig ugyanaz a példányt
 adja vissza.
 
@@ -115,8 +115,8 @@ public class Test1 {
 ----
 
 Ebben az esetben a logger neve `log4jsample.Test1` lesz. Fordításhoz nem
-kell mást tennünk, mint a Log4J jar fájlját (jelenleg log4j-1.2.8.jar)
-elhelyezni a classpathban.
+kell mást tennünk, mint a Log4J jar fájlját (jelenleg `log4j-1.2.8.jar`)
+elhelyezni a classpathon.
 
 Ebben az esetben még nem vagyunk kész az alkalmazásunkkal, hiszen egy
 konfigurációs fájlt is meg kell adni, melyben a szinteket, appendereket
