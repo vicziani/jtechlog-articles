@@ -263,9 +263,9 @@ alpha = (aLongBooleanExpression)
 
 A Java programokban kétfajta megjegyzések lehetnek: implementációs és
 dokumentációs megjegyzések. Az implementációs megjegyzések vannak C++
-nyelvű forrásszövegben is, melyeket a `/\* \*/`, vagy a `//` szimbólumok
+nyelvű forrásszövegben is, melyeket a `/* \*/`, vagy a `//` szimbólumok
 jelölnek. A dokumentációs megjegyzések csak Java nyelvben léteznek,
-ezeket a `/\*\* \*/` zárójelpárokkal kell jelölni. A javadoc programmal ezek
+ezeket a `/** */` zárójelpárokkal kell jelölni. A javadoc programmal ezek
 a megjegyzések bekerülnek egy HTML fájlba sok egyéb információval
 együtt.
 
@@ -457,7 +457,7 @@ ajánlott
 
 [source,java]
 ----
-int level,size;
+int level, size;
 ----
 
 helyett.
@@ -475,8 +475,8 @@ között. Másik elfogadható választási lehetőség a tabok használata, azaz
 [source,java]
 ----
 int     level;          // szint
-int     size;            // tábla merete
-Object  currentEntry;    // kiválasztott táblabejegyzés
+int     size;           // tábla merete
+Object  currentEntry;   // kiválasztott táblabejegyzés
 ----
 
 === Inicializálás
@@ -680,7 +680,6 @@ while (feltetel);
 ----
 
 === A `do-while` utasítás
-~~~~~~~~~~~~~~~~~~~
 
 Formája:
 
@@ -792,7 +791,7 @@ szóközzel az operandusaitól. Tilos szóközt használni az unáris operátor
 
 [source,java]
 ----
- a += c + d;
+a += c + d;
 a = (a + b) / (c * d);
 
 while (d++ = s++) {
