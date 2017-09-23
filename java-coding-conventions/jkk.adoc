@@ -11,7 +11,7 @@ karaktereket sem használunk bennük. A forrásban szereplő megjegyzések
 szövegeit azonban fordítottuk, és ékezetes karaktereket is használtunk.
 
 
-Az eredeti szöveg elérhető a 
+Az eredeti szöveg elérhető a
 http://www.oracle.com/technetwork/java/codeconvtoc-136057.html címen. A magyar fordítás elérhető a http://www.jtechlog.hu/cikkek.html címen.
 
 == Bevezetés
@@ -176,9 +176,9 @@ behúzás helyett.
 
 [source,java]
 ----
-someMethod(longExpression1, longExpression2, longExpression3, 
+someMethod(longExpression1, longExpression2, longExpression3,
         longExpression4, longExpression5);
- 
+
 var = someMethod1(longExpression1,
                 someMethod2(longExpression2,
                         longExpression3));
@@ -229,43 +229,43 @@ if ((condition1 && condition2)
     || (condition3 && condition4)
     ||!(condition5 && condition6)) { //A rossz sortörések miatt
     doSomethingAboutIt();            //ez a sor könnyen eltéveszthető
-} 
+}
 
 // Helyette használjuk ezt
 if ((condition1 && condition2)
         || (condition3 && condition4)
         ||!(condition5 && condition6)) {
     doSomethingAboutIt();
-} 
+}
 
 // Vagy ezt
 if ((condition1 && condition2) || (condition3 && condition4)
         ||!(condition5 && condition6)) {
     doSomethingAboutIt();
-} 
+}
 ----
 
 Álljon itt három példa a feltételes kifejezés használatára:
 
 [source,java]
 ----
-alpha = (aLongBooleanExpression) ? beta : gamma;  
+alpha = (aLongBooleanExpression) ? beta : gamma;
 
 alpha = (aLongBooleanExpression) ? beta
-                                 : gamma;  
+                                 : gamma;
 
 alpha = (aLongBooleanExpression)
-        ? beta 
-        : gamma;  
+        ? beta
+        : gamma;
 ----
 
 == Megjegyzések
 
 A Java programokban kétfajta megjegyzések lehetnek: implementációs és
 dokumentációs megjegyzések. Az implementációs megjegyzések vannak C++
-nyelvű forrásszövegben is, melyeket a `/* */`, vagy a `//` szimbólumok
+nyelvű forrásszövegben is, melyeket a `/\* \*/`, vagy a `//` szimbólumok
 jelölnek. A dokumentációs megjegyzések csak Java nyelvben léteznek,
-ezeket a `/** */` zárójelpárokkal kell jelölni. A javadoc programmal ezek
+ezeket a `/\*\* \*/` zárójelpárokkal kell jelölni. A javadoc programmal ezek
 a megjegyzések bekerülnek egy HTML fájlba sok egyéb információval
 együtt.
 
@@ -314,7 +314,7 @@ megjegyzést a kódtól.
 /*
  * Ez egy blokk megjegyzés.
  */
----
+----
 
 A blokk megjegyzések kezdődjenek `/*-` szimbólumsorozattal, mely jelzi a
 behúzást végző programnak (indent), hogy a megjegyzést nem lehet
@@ -1086,7 +1086,7 @@ import java.blah.blahdy.BlahBlah;
  * @version 1.82 18 Mar 1999
  */
 public class Blah extends SomeClass {
-  
+
     /* Itt következhetnek az osztály implementációs megjegyzései. */
     /**
      * classVar1 dokumentációs megjegyzés
